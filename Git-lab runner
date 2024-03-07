@@ -1,0 +1,3 @@
+for ci/cd in gitlab
+settings>CICD
+first we need to configure runners 
