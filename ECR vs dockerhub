@@ -1,0 +1,4 @@
+ECR by default create private repo | dockerhub by defaule create public repo
+ECR can be be integrated to IAM easily for resriction of access of images for users and images cannot be exposed ppublically and in dockerhub everyone have to create account for that IAM can be integrated and other AWS services can be integrated with Ecr
+ECR IS BYDEFAULT PRIVATE CONTAINER REGISTRY
+ECR is not free service and you can scan the images for any bugs or defects.
