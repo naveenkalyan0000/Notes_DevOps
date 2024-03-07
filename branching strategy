@@ -1,0 +1,8 @@
+branching strategy:
+===================
+
+main/master: 
+feature:for any new feature you are workig on existing org you create a new fearture branch if developers are confident they merge it into master 
+release branch : instead of building app on master for customers we build app in release branch because master branch is used actively by developers and we test this branch if its ok from release you ship app to customer
+hotfix: if bug is there in customer side and want to fix it immediately 
+whatever changes done in feature,release and hotfix we merge with master because master should be upto date
