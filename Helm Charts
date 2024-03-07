@@ -1,0 +1,10 @@
+helm  is package manager for k8s like yum,apt.
+it also helps us to deploy app in easier way like we have template of apps that are customisable like let's say like we want to install Jenkins you can just fetch the template and you can customise it and you can deploy it
+
+snap install helm --classic
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm search repo
+helm pull bitnami/nginx untar==true
+ll
+helm install my-nginx bitnami/nginx
+(my-nginx or you can give any name_
