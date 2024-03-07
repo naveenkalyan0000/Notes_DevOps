@@ -1,0 +1,15 @@
+
+github service =  AWS code commit service in AWS
+jenkins pipeline = AWS codepipeline
+for builging app like maven = AWS Code build 
+instead of argocd or shell script = AWS code deploy
+
+AWS code commit:
+*managed service
+managed git
+scalability
+Reliability
+(genrally  you will not use public or open source repo  )
+(you dont have to enable code guru)
+it will not work well with root account you cannot use like ssh so we use IAM user give AWS code commit power user access (we use https url for cli purpose)
+the disadvantage is it has very less features and AWS restricted so we use very less in real time
