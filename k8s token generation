@@ -1,0 +1,102 @@
+Generating k8s token to give in jenkins pipeline:
+(for all of the below yml files use "kubectl apply -f .yml -n webapps")
+
+Creating Service Account:-
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: jenkins
+  namespace: webapps
+
+Create Role:-
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: app-role
+  namespace: webapps
+rules:
+  - apiGroups:
+        - ""
+        - apps
+        - autoscaling
+        - batch
+        - extensions
+        - policy
+        - rbac.authorization.k8s.io
+    resources:
+      - pods
+      - componentstatuses
+      - configmaps
+      - daemonsets
+      - deployments
+      - events
+      - endpoints
+      - horizontalpodautoscalers
+      - ingress
+      - jobs
+      - limitranges
+      - namespaces
+      - nodes
+      - pods
+      - persistentvolumes
+      - persistentvolumeclaims
+      - resourcequotas
+      - replicasets
+      - replicationcontrollers
+      - serviceaccounts
+      - services
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+Bind the role to service account:-
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: app-rolebinding
+  namespace: webapps 
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: app-role 
+subjects:
+- namespace: webapps 
+  kind: ServiceAccount
+  name: jenkins 
+
+Generate token using service account in the namespace
+
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/service-account-token
+metadata:
+  name: mysecretname
+  annotations:
+    kubernetes.io/service-account.name: jenkins
+
+kubectl -n webapps describe secret mysecretname
+(copy the token)
+
+cd .kube
+cat config
+(in config we need server url copy it)
+
+in jenkins we need these plugins:
+kubernetes,kubernetescli
+
+in snippet generator in jenkins select "with kube config:---kubecli)
+(add credentials use kind:secret text paste the token here)
+select the token credentials
+kubernetes service end point:paste the server url here that we copied earlier
+namespace:webapps
+
+ stage('Kubernetes Deploy') { 
+ steps { 
+ withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.8.162:6443') { 
+ sh "kubectl apply -f deploymentservice.yml -n webapps"  sh "kubectl get svc -n webapps" 
+ } 
+ } 
+ } 
+
+install kubectl in your server where jenkins is running before running pipeline
