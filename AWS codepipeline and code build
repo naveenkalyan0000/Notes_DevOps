@@ -1,0 +1,5 @@
+Jenkins takes the responsibility of Implementing continuous integration and invoking continuous delivery
+AWS code Pipeline takes the responsibility of Invoking continuous integration and invoking continuous delivery
+AWS code pipeline Invoke continuous integration using AWS code build By using aws code build we  will implement all the stages like checkout,build,codescan,etc.,
+By using AWS code deploy We will take care of continuous delivery
+disadvantage is AWS restricted
