@@ -1,0 +1,106 @@
+Git Branching Startegy:
+======================
+
+Git branching strategy is a crucial aspect of version control workflows, particularly in 
+collaborative software development environments. Below, I'll explain a branching 
+strategy with the branches you mentioned and illustrate it with a diagram.
+
+Branches:
+=========
+
+1. master: Represents the stable, production-ready codebase.
+2. dev: Serves as the integration branch for ongoing development work.
+3. qa: Used for testing and quality assurance before changes are deployed to production.
+4. ppd (Pre-Production Deployment): A staging area for pre-production testing.
+5. prod: Represents the live production environment.
+6. dr (Disaster Recovery): A branch for disaster recovery purposes, mirroring prod.
+7. feature: Branches for developing new features.
+8. bug-fix: Branches for fixing bugs found in dev, qa, ppd, or prod.
+9. hotfix: Branches for critical fixes needed in prod or ppd.
+
+Branch Creation and Merging Strategy:
+======================================
+
+1). master Branch:
+==================
+
+o The master branch typically serves as the main branch of the project, 
+representing the stable and production-ready code.
+o All other branches are created from master initially.
+
+2). dev Branch:
+===============
+
+o Created from master.
+o Integrates ongoing feature development work.
+o Developers merge their feature branches into dev for integration and 
+testing.
+
+3). QA Branch:
+==============
+
+o Created from dev.
+
+o Used for comprehensive testing before changes are promoted to 
+
+production.
+
+o Merges from dev after features are tested and stabilized.
+
+4). ppd Branch:
+================
+
+o Created from qa.
+
+o Acts as a staging environment for pre-production testing.
+
+o Merges from qa once testing is successful.
+
+5). prod Branch:
+=================
+
+o Created from qa.
+
+o Represents the live production environment.
+
+o Changes are only merged into prod after thorough testing in qa and 
+
+ppd.
+
+6). DR Branch:
+===============
+
+o Created from prod.
+
+o Mirrors the prod branch to provide a backup in case of disaster.
+
+o Usually not directly interacted with during regular development.
+
+7). feature Branch:
+===================
+
+o Created from dev.
+
+o Individual branches for developing new features.
+
+o Merged back into dev after completion and testing.
+
+8). bug-fix Branch:
+====================
+
+o Created from dev, qa, ppd, or prod depending on where the bug is found.
+
+o Used for fixing bugs.
+
+o Merged back into the respective branch it was created from.
+
+9). hotfix Branch:
+===================
+
+o Created from prod or ppd in case of critical issues.
+
+o Used for urgent fixes that need to be deployed immediately to 
+
+production.
+o Merged back into prod and ppd once fixed.
+
