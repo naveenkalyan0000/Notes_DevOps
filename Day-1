@@ -1,0 +1,52 @@
+
+#! /bin/bash
+set -x
+set -e
+set -o pipefail
+#list of s3 buckets
+echo "list of s3 buckets"
+aws s3 ls
+
+#list of ec2 instances
+echo "list of instances"
+aws ec2 describe-instances
+
+#list of lamda functions
+aws lambda list-functions
+
+#list of IAM users
+echo "list of users in IAM"
+
+aws iam list-users
+
+echo "printing instance ids"
+aws ec2 describe-instances | jq '.Reservations[].Instances[].InstanceId'
+
+
+to see list of users have access to a repo:
+    1  git clone https://github.com/iam-veeramalla/shell-scripting-projects.git
+    2  ll
+    3  cd shell-scripting-projects/
+    4  ll
+    5  cd github-api/
+    6  ll
+    7  export username="kasturiakash"
+    8  export token="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"
+    9  chmod 777 list-users.sh
+   10  ./list-users.sh akashpractice12
+   11  sudo apt-get update
+   12  sudo apt-get install jq
+   13  ./list-users.sh akashpractice12
+   14  ./list-users.sh akashpractice12 practice
+   15  history
+
+
+jenkins:
+
+ps -ef | grep jenkins
+
+for restarting jenkins you can do http:publicip:8080/restart
+for docker as agent you will install docker pipeline plugin
+here jenkins will rquest docker to create containg for build purpose as soon build is done it will delete it
+
+AWS CLI is a tool used to connect aws with your personal vm or any machine . AWS helps to interact withAWS api's
