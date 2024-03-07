@@ -1,0 +1,44 @@
+fluxcd is gitops tool like argocd but it doesn't have UI.
+
+fluxcli is client side tool used to interact with flux gitopa agent
+
+when we bootstrap it creates namespace flux-system inside it it will create and run controllers
+
+source controller: we define source of deployment like git repo( define SOT(source of truth)).
+kustomize controller: lets say in our SOT we define or declare our manifest files using kustomization approach it is responsibility of kustomization controller to apply kustomisation on the environment
+helm controller: if we define our manifest files using helm charts then it is responsibility of helm controller to apply helm charts on cluster env
+notification controller: it notifies us  the state of deployment process it can notify to SOT repo,teams,slack
+these controllers installed in boot strap process.
+reconciliation:  when ever pull happens it takes of maintaining the desired state on cluster means when ever pull happens it compares desired state with current state of there is changes then it will apply on cluster.
+suspend: it can suspend pull or reconciliation 
+resume : to resume if we used suspend
+prune: if developer manually done changes in cluster then in next reconciliation the changes done will be deleted automatically 
+these above 4 are commands
+
+before installation of fluxcd we need a git repo and PAT token (personal access token) so this token is used by fluxcd agent to talk to github repo we need a gitrepo to store infrastucture related code All the code related to flux cd components Will be stored in this repo.
+
+steps:
+export GITHUB_USER=kasturiakash
+export GITHUB_TOKEN=""
+curl -s https://fluxcd.io/install.sh | sudo bash
+flux bootstrap github --owner=$GITHUB_USER --repository=fluxcdInfraSOT --branch=main --path=deployinfra --personal 
+(if you have these repo name "fluxcdInfraSOT" or give any repo name)  (--path=deployinfra inside repo it will create these folder you can give any folder name and it will create config files inside it)
+snap install kubectx --classic
+kubens
+kubectl create ns fluxcdtutorial
+(any name you want)
+kubectl config set-context --current --namespace=fluxcdtutorial
+kubens
+flux create source git k8snginxappsot --url=https://github.com/kasturiakash/k8s_nginxapp_sot.git --branch=main --interval=30s --export > ./flux_source.yaml  
+(here in "k8snginxappsot" give any name    --url=https://github.com/kasturiakash/k8s_nginxapp_sot.git inside these repo i have deploymnent.yml and service.yml and customise.yml)
+ flux create kustomization k8snginxappsot --source=k8snginxappsot --path="./" --prune=true --validation=client --interval=30s --export > ./flux_sync.yaml
+kubectl apply -f ./flux_source.yaml
+kubectl apply -f ./flux_sync.yaml
+kubectl get pods -o wide
+
+
+
+
+sealed secret: in gitops we declared manifest files in the repo but like that if you want to provision set of passwords then we cannot store it in repo in plain text or base64 format because it is easily decoded 
+one of the solution is using bitnami .
+previously during bootstrap those controllers took care of everything thing like that we install the controller from bitnami after we install the controller we use client side tool which is kubeseal cli to generate sealed secret and store these secret in gitrepo when gitops tool pull the secret this controller will decode the sealed  secret we stored in repo
