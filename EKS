@@ -1,0 +1,12 @@
+k8s:
+control plane/master nodes: customer talk to master
+data plane/ worker nodes
+* lets say i created a cluster for high availabilty 3 master and 3 worker nodes usimg kops what if one of master node went down or certificate expired  or api server is down or etcd crashed or scheduler is not working.
+kops will create the cluster but you are responsible for these issues so we have EKS.
+EKS is managed control plane
+EKS will give you highly available cluster every thing related to control plane taken care by EKS .
+it give easy way to attach worker nodes with control plane. It will give you two methods one is you can create  ec2 instances by your self other one is you can go with fargate it is AWS serverless compute just like lamda fuction. fargate is defined for running containers
+if you go with fargate and EKS then EKS takes care of control plane and fargate takes care of worker node. fargate is highly available
+applications are always deployed on private subnet  
+by eksctl by cli mode you can creste cluster
+in eks if you select or click the cluster under resource section you can see all the things like pods  
