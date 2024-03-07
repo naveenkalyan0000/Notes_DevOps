@@ -1,0 +1,4 @@
+
+aws s3 mb s3://name_of_the_Bucket --region us-east-1
+#for creating s3 bucket in Any region
+#us-east-1 => enter u r required region
